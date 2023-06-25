@@ -13,7 +13,7 @@ router.get(
   "",
   (req, res, next) => {
     try {
-      res.data = userRepository.getAll();
+      res.data = userService.searchAll();
     } catch (err) {
       res.err = err;
     } finally {
@@ -28,6 +28,21 @@ router.get(
   (req, res, next) => {
     try {
       const data = userService.search({id: req.params.id});
+      res.data = data;
+    } catch (err) {
+      res.err = err;
+    } finally {
+      next();
+    }
+  },
+  responseMiddleware
+);
+
+router.delete(
+  "/:id",
+  (req, res, next) => {
+    try {
+      const data = userService.delete(req.params.id);
       res.data = data;
     } catch (err) {
       res.err = err;

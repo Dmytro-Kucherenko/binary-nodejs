@@ -9,8 +9,18 @@ class UserService {
     return item;
   }
 
-  getAll() {
+  searchAll() {
     const item = userRepository.getAll();
+    return item;
+  }
+
+  delete(id) {
+    const item = this.search({id: id});
+    if(!item) {
+      return null;
+    }
+
+    userRepository.delete(id);
     return item;
   }
 }
