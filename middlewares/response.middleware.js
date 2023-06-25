@@ -7,7 +7,7 @@ const responseMiddleware = (req, res, next) => {
 
     if(!res.data || res.data.length === 0) {
       res.status(404);
-      res.send("Data was not found");
+      res.send({error: true, message: "Data was not found"});
 
       return;
     }
@@ -17,7 +17,7 @@ const responseMiddleware = (req, res, next) => {
   }
   catch(e) {
     res.status(400);
-    res.send(e);
+    res.send({error: true, message: e.toString()});
   }
 };
 
