@@ -14,6 +14,11 @@ class UserService {
     return item;
   }
 
+  create(user) {
+    const item = userRepository.create(user);
+    return item;
+  }
+
   delete(id) {
     const item = this.search({id: id});
     if(!item) {
