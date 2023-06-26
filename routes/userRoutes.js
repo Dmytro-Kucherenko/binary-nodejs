@@ -58,6 +58,26 @@ router.post(
   responseMiddleware
 );
 
+router.put(
+  "/:id",
+  updateUserValid,
+  (req, res, next) => {
+    try {
+      if(res.err) {
+        return next();
+      }
+
+      const data = userService.update(req.params.id, req.body);
+      res.data = data;
+    } catch (err) {
+      res.err = err;
+    } finally {
+      next();
+    }
+  },
+  responseMiddleware
+);
+
 router.delete(
   "/:id",
   (req, res, next) => {

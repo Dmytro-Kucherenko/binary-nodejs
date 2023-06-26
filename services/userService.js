@@ -19,6 +19,15 @@ class UserService {
     return item;
   }
 
+  update(id, data) {
+    const item = this.search({id: id});
+    if(!item) {
+      return null;
+    }
+
+    return userRepository.update(id, data);
+  }
+
   delete(id) {
     const item = this.search({id: id});
     if(!item) {

@@ -35,7 +35,34 @@ const createUserValid = (req, res, next) => {
 };
 
 const updateUserValid = (req, res, next) => {
-  // TODO: Implement validatior for user entity during update
+  const user = req.body;
+  const id = req.params.id;
+
+  const invalidPhone = (phoneNumber) => {
+    if(!user.phoneNumber.startsWith('+380')) 
+      return true;
+
+    const unique = user.phoneNumber.substring(4);
+    if(unique.length !== 9 || ![...unique].every(symbol => Number(symbol) == symbol))
+      return true;
+
+    return false;
+  }
+
+  if((user.email && !user.email.endsWith('@gmail.com')) 
+    || (user.phoneNumber && invalidPhone(!user.phoneNumber)) 
+    || (user.password && user.password < 3)
+  ) {
+    res.err = "User data is not valid";
+    return next();
+  }
+
+  const emailUser = userService.search({email: user.email})
+  const phoneUser = userService.search({phoneNumber: user.phoneNumber})
+  if((emailUser && emailUser.id !== id) || (phoneUser && phoneUser.id !== id)) {
+    res.err = "User with same email or phone already exists";
+  }
+  
   next();
 };
 
