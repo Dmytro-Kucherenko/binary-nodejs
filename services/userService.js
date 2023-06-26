@@ -15,17 +15,29 @@ class UserService {
   }
 
   create(user) {
+    const emailUser = userService.search({email: user.email})
+    const phoneUser = userService.search({phoneNumber: user.phoneNumber})
+    if(emailUser || phoneUser) {
+      throw "User with same email or phone already exists";
+    }
+
     const item = userRepository.create(user);
     return item;
   }
 
-  update(id, data) {
+  update(id, user) {
     const item = this.search({id: id});
     if(!item) {
       return null;
     }
 
-    return userRepository.update(id, data);
+    const emailUser = userService.search({email: user.email})
+    const phoneUser = userService.search({phoneNumber: user.phoneNumber})
+    if((emailUser && emailUser.id !== id) || (phoneUser && phoneUser.id !== id)) {
+      throw "User with same email or phone already exists";
+    }
+
+    return userRepository.update(id, user);
   }
 
   delete(id) {

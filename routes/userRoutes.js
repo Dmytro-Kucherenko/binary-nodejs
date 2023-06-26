@@ -5,7 +5,6 @@ import {
   updateUserValid,
 } from "../middlewares/user.validation.middleware.js";
 import { responseMiddleware } from "../middlewares/response.middleware.js";
-import { userRepository } from "../repositories/userRepository.js";
 
 const router = Router();
 
